@@ -79,3 +79,36 @@
   <h1>welcome</h1>
 </div>
 ```
+
+> You can use a shorthand in laravel
+
+```php
+# routes/web.php
+
+# Common Resource Routes:
+# index - Show all listings
+# show - Show single listing
+# create - Show form to create a bew listing
+# store - Store new listing
+# edit - Show form to edit listing
+# update - Update listing
+# destroy - Delete listing
+
+Route::get('/listing/{id}', function($id){
+    $listing = Listing::find($id);
+    if ($listing) {
+        return view('listing', ['listing' => $listing]);
+    }
+    else {
+        abort('404');
+    }
+
+});
+
+# you can use this instead it checks it automatically
+
+Route::get('/listing/{listing}', function(Listing $listing){
+        return view('listing', ['listing' => $listing]);
+});
+
+```

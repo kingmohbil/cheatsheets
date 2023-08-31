@@ -47,3 +47,9 @@ php artisan seed
 ```properties
 php artisan make:model <model Name>
 ```
+
+### This command is used to create a controller using artisan
+
+```properties
+php artisan make:controller <controller name>
+```
