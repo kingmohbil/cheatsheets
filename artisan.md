@@ -53,3 +53,9 @@ php artisan make:model <model Name>
 ```properties
 php artisan make:controller <controller name>
 ```
+
+### To link the public storage to the public file we use this command
+
+```properties
+php artisan storage:link
+```

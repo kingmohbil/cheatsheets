@@ -230,7 +230,62 @@ return redirect('/')->with('message', 'Listing created successfully');
 
 ```php
 
+# flash.blade.php
+//
+@if(session()->has('message'))
+# those custom values are used from alpine.js to hide the message after 3s
+    <div x-data="{show: true}" x-show="show" x-init="setTimeout(()=> show = false, 3000)"
+         class="fixed top-0 left-1/2 transform -translate-x-1/2  bg-laravel text-white px-48 py-6"
+    >
+        {{session('message')}}
+    </div>
+@endif
+
+```
+
+### To create a pagination we can use paginate instead of get and pass it the number of items to be displayed
+
+```php
+# listings_controller.php
+
+public static function index(Request $request): View {
+    # this will return the latest two listings
+  return view('listings', ['listings' => Listing::latest()->filter(['tag' => $request['tag'], 'search' => $request['search']])->paginate(6)]);
+}
 
 
+# By adding this piece of code you can show the pagination links
 
+# listings.blade.php
+
+<div class="mt-6 p-4">
+    {{$listings->links()}}
+</div>
+
+```
+
+### To upload a file to the storage folder we need to edit the `config/fileSystems.php` file first
+
+```php
+# config/fileSystems.php
+  # from
+  'default' => env('FILESYSTEM_DISK', 'local')
+  # to
+  'default' => env('FILESYSTEM_DISK', 'public')
+
+# /listings POST request
+
+ if (request()->hasFile('<filename>')) {
+            $formFields['<filename>'] = request()->file('<filename>')->store('logos', 'public');
+    }
+
+```
+
+### To send a PUT request
+
+```php
+
+<form method="post" action="/">
+@method('PUT')
+</form>
 ```
